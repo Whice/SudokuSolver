@@ -25,8 +25,12 @@
         /// Размер ячейки.
         /// </summary>
         private int height = 9;
+        /// <summary>
+        /// Размер цифр.
+        /// </summary>
+        private int fontSize = 9;
 #pragma warning disable CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающее значения NULL.
-        public CellViews(Control? parent, int width, int height, int cellSize, int cellSpacing)
+        public CellViews(Control? parent, int width, int height, int cellSize, int cellSpacing, int fontSize)
 #pragma warning restore CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающее значения NULL.
         { 
             this.parent = parent;
@@ -34,9 +38,26 @@
             this.height = height;
             this.cellSize = cellSize;
             this.spacing = cellSpacing;
+            this.fontSize = fontSize;
+            if (parent != null)
+            {
+                parent.Size = new Size((width - 1) * (cellSize + fontSize), (height - 1) * (cellSize + fontSize));
+            }
             CreateAllViews();
         }
-
+        /// <summary>
+        /// Очистить текстовые поля.
+        /// </summary>
+        public void Clear()
+        {
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    this.cellViews[i, j].Text = "";
+                }
+            }
+        }
         /// <summary>
         /// Все представления ячеек.
         /// </summary>
@@ -65,8 +86,8 @@
         /// <returns></returns>
         private RichTextBox CreateCellView(int xPos, int yPos)
         {
-            xPos = xPos * (this.cellSize + this.spacing);
-            yPos = yPos * (this.cellSize + this.spacing);
+            xPos = xPos * (this.cellSize + this.spacing) + this.cellSize / 2 - this.spacing;
+            yPos = yPos * (this.cellSize + this.spacing) + this.cellSize / 2- this.spacing;
             RichTextBox newRichTextBox = new RichTextBox();
             newRichTextBox.Location = new Point(xPos, yPos);
             newRichTextBox.Name = $"Cell view {xPos}; {yPos};";
@@ -74,12 +95,19 @@
             newRichTextBox.TabIndex = 1;
             newRichTextBox.Text = "";
             newRichTextBox.Parent = this.parent;
+            newRichTextBox.Font = new Font("Segoe UI", this.fontSize, FontStyle.Regular, GraphicsUnit.Point);
 
             return newRichTextBox;
         }
-        private bool IsNumberFrom1To9(string number)
+        /// <summary>
+        /// Проверить, что поле пустуе или правильное число: 1..9
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        private bool IsNumberFrom0To9(string number)
         {
             bool result = false;
+            result |= number == "";
             result |= number == "1";
             result |= number == "2";
             result |= number == "3";
@@ -106,18 +134,42 @@
                 for (int j = 0; j < height; j++)
                 {
                     string value = this.cellViews[i, j].Text;
-                    if (IsNumberFrom1To9(value))
+                    if (IsNumberFrom0To9(value))
                     {
-                        values[i, j] = Convert.ToInt32(this.cellViews[i, j].Text);
+                        if (value == "")
+                        {
+                            values[i, j] = 0;
+                        }
+                        else
+                        {
+                            values[i, j] = Convert.ToInt32(value);
+                        }
                     }
                     else
                     {
-                        throw new Exception($"Ой! Не однозначное число! В {i};{j};");
+                        values[i, j] = 0;
                     }
                 }
             }
 
             return values;
+        }
+        /// <summary>
+        /// Задать числовые значения для ячеек.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public void SetCellsValues(int[,] intCells)
+        {
+            int width = this.width;
+            int height = this.height;
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    this.cellViews[i, j].Text = intCells[i, j].ToString(); 
+                }
+            }
         }
     }
 }

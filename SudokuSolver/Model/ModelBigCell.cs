@@ -48,8 +48,24 @@ namespace SudokuSolver.Model
                 return false;
             }
             this.modelCells[x, y] = newCell;
+            newCell.owner = this;
 
             return true;
+        }
+
+        private List<int> possibleValuesPrivate = new List<int>();
+        public List<int> possibleValues
+        {
+            get
+            {
+                this.possibleValuesPrivate.Clear();
+                for (int i = 1; i < 10; i++)
+                {
+                    if (IsCanSet(i))
+                        this.possibleValuesPrivate.Add(i);
+                }
+                return this.possibleValuesPrivate;
+            }
         }
         /// <summary>
         /// Все значения выставлены.

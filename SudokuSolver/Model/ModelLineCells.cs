@@ -130,6 +130,21 @@
 
         #region Проверка правильности линии.
 
+        private List<int> possibleValuesPrivate = new List<int>();
+        public List<int> possibleValues
+        {
+            get
+            {
+                this.possibleValuesPrivate.Clear();
+                for (int i = 1; i < 10; i++)
+                {
+                    if(IsCanSet(i))
+                        this.possibleValuesPrivate.Add(i);
+                }
+                return this.possibleValuesPrivate;
+            }
+        }
+
         /// <summary>
         /// Набор значений, который может быть в линии.
         /// </summary>

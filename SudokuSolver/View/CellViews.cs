@@ -74,7 +74,7 @@
             {
                 for (int j = 0; j < height; j++)
                 {
-                    this.cellViews[i, j] = CreateCellView(i, j);
+                    this.cellViews[i, j] = CreateCellView(j, i);
                 }
             }
         }
@@ -167,7 +167,15 @@
             {
                 for (int j = 0; j < height; j++)
                 {
-                    this.cellViews[i, j].Text = intCells[i, j].ToString(); 
+                    int value = intCells[i, j];
+                    if (value == 0)
+                    {
+                        this.cellViews[i, j].Text = "";
+                    }
+                    else
+                    {
+                        this.cellViews[i, j].Text = value.ToString();
+                    }
                 }
             }
         }

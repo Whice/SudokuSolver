@@ -211,10 +211,6 @@ namespace SudokuSolver.Model
                                 cellForNumberSet.value = i;
                             }
                         }
-                        for (int j = 0; j < 9; j++)//большие ячейки
-                        {
-                            //Проверить линии для пустых ячеек
-                        }
                     }
                 }
 

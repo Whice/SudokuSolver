@@ -34,15 +34,17 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panelMessages = new System.Windows.Forms.Panel();
             this.Messages = new System.Windows.Forms.RichTextBox();
+            this.OpenFileButton = new System.Windows.Forms.Button();
+            this.SaveFileButton = new System.Windows.Forms.Button();
             this.panelMessages.SuspendLayout();
             this.SuspendLayout();
             // 
             // Go
             // 
             this.Go.Font = new System.Drawing.Font("Segoe UI", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Go.Location = new System.Drawing.Point(44, 453);
+            this.Go.Location = new System.Drawing.Point(12, 532);
             this.Go.Name = "Go";
-            this.Go.Size = new System.Drawing.Size(634, 120);
+            this.Go.Size = new System.Drawing.Size(374, 93);
             this.Go.TabIndex = 0;
             this.Go.Text = "Go";
             this.Go.UseVisualStyleBackColor = true;
@@ -84,11 +86,35 @@
             this.Messages.TabIndex = 0;
             this.Messages.Text = "";
             // 
+            // OpenFileButton
+            // 
+            this.OpenFileButton.Font = new System.Drawing.Font("Segoe UI", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.OpenFileButton.Location = new System.Drawing.Point(409, 532);
+            this.OpenFileButton.Name = "OpenFileButton";
+            this.OpenFileButton.Size = new System.Drawing.Size(319, 93);
+            this.OpenFileButton.TabIndex = 4;
+            this.OpenFileButton.Text = "OpenFile";
+            this.OpenFileButton.UseVisualStyleBackColor = true;
+            this.OpenFileButton.Click += new System.EventHandler(this.OpenFileButton_Click);
+            // 
+            // SaveFileButton
+            // 
+            this.SaveFileButton.Font = new System.Drawing.Font("Segoe UI", 40F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.SaveFileButton.Location = new System.Drawing.Point(734, 532);
+            this.SaveFileButton.Name = "SaveFileButton";
+            this.SaveFileButton.Size = new System.Drawing.Size(319, 93);
+            this.SaveFileButton.TabIndex = 5;
+            this.SaveFileButton.Text = "SaveFile";
+            this.SaveFileButton.UseVisualStyleBackColor = true;
+            this.SaveFileButton.Click += new System.EventHandler(this.SaveFileButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1598, 653);
+            this.Controls.Add(this.SaveFileButton);
+            this.Controls.Add(this.OpenFileButton);
             this.Controls.Add(this.panelMessages);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -108,5 +134,7 @@
         private Panel panel2;
         private Panel panelMessages;
         private RichTextBox Messages;
+        private Button OpenFileButton;
+        private Button SaveFileButton;
     }
 }

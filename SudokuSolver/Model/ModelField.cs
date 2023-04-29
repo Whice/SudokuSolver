@@ -1,4 +1,6 @@
-﻿namespace SudokuSolver.Model
+﻿using SudokuSolver.Logging;
+
+namespace SudokuSolver.Model
 {
     internal class ModelField
     {
@@ -35,11 +37,12 @@
 
                     if (result == false)
                     {
-                        throw new Exception("Ячейка не добавилась!");
+                        Logger.Error("Ячейка не добавилась!");
                     }
                 }
             }
             this.modelLineCells = new ModelLineCells(this.modelCells);
+            this.modelLineCellsForValidCheck = new ModelLineCells(this.modelCells);
         }
 
         #region Проверки
@@ -61,6 +64,35 @@
             {
                 this.modelLineCells.lineIndex = i;
                 if (!this.modelLineCells.IsFullLine())
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Отдельный экземпляр линии для проверок правильности поля.
+        /// </summary>
+        private ModelLineCells modelLineCellsForValidCheck;
+        /// <summary>
+        /// Все значения внутри поля расставлены правильно и не протеворечат друг другу.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsValid()
+        {
+            this.modelLineCellsForValidCheck.isVertical = true;
+            for (int i = 0; i < 9; i++)
+            {
+                this.modelLineCellsForValidCheck.lineIndex = i;
+                if (!this.modelLineCellsForValidCheck.IsValid())
+                    return false;
+            }
+
+            this.modelLineCellsForValidCheck.isVertical = false;
+            for (int i = 0; i < 9; i++)
+            {
+                this.modelLineCellsForValidCheck.lineIndex = i;
+                if (!this.modelLineCellsForValidCheck.IsValid())
                     return false;
             }
 
@@ -103,6 +135,10 @@
         {
             while (!IsFull())
             {
+                //Не выполнять расчет для неправильного поля.
+                if (!IsValid())
+                    break;
+
                 //Ячейки неизменные делаются
                 ClearIsChange();
 

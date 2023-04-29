@@ -127,5 +127,42 @@
 
             return true;
         }
+
+        #region Проверка правильности линии.
+
+        /// <summary>
+        /// Набор значений, который может быть в линии.
+        /// </summary>
+        private HashSet<int> valuesInLine = new HashSet<int>(9);
+        /// <summary>
+        /// В линии нет повторяющихся значений.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsValid()
+        {
+            this.valuesInLine.Clear();
+            ModelCell cell = null;
+            int value = 0;
+            for (int i = 0; i < 9; i++)
+            {
+                cell = GetByIndex(i);
+                if (!cell.isEmpty)
+                {
+                    value = cell.value;
+                    if (this.valuesInLine.Contains(value))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        this.valuesInLine.Add(value);
+                    }
+                }
+            }
+            return true;
+        }
+
+        #endregion Проверка правильности линии.
+
     }
 }

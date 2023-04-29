@@ -1,4 +1,5 @@
-﻿using SudokuSolver.Model;
+﻿using SudokuSolver.Logging;
+using SudokuSolver.Model;
 using SudokuSolver.View;
 
 namespace SudokuSolver
@@ -30,15 +31,19 @@ namespace SudokuSolver
             this.cellViews = new CellViews(this.panel1, 9, 9, 40, 5, 15);
             this.cellViews.SetCellsValues(this.values);
             this.solvedCellViews = new CellViews(this.panel2, 9, 9, 40, 5, 15);
+            Logger.messagesTextBox = this.Messages;
             Update();
         }
 
         private void Go_Click(object sender, EventArgs e)
         {
             this.modelField = new ModelField(this.cellViews.GetCellsValues());
-            this.modelField.Culculate();
-            this.solvedCellViews.Clear();
-            this.solvedCellViews.SetCellsValues(this.modelField.GetResults());
+            if (this.modelField.IsValid())
+            {
+                this.modelField.Culculate();
+                this.solvedCellViews.Clear();
+                this.solvedCellViews.SetCellsValues(this.modelField.GetResults());
+            }
         }
     }
 }
